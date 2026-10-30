@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ronak Diwali Special</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#090600;color:#ffd875;
+ font-family:Georgia,serif;text-align:center;
+ min-height:100vh;overflow-x:hidden;
+}
+.container{padding:30px 15px}
+h1{
+ font-size:40px;color:#ffd36a;
+ text-shadow:0 0 20px orange;
+}
+.lamp{font-size:65px;animation:glow 1s infinite alternate}
+@keyframes glow{
+ from{filter:drop-shadow(0 0 5px orange)}
+ to{filter:drop-shadow(0 0 25px gold)}
+}
+button{
+ background:linear-gradient(45deg,#a56b00,#ffe29a);
+ border:1px solid gold;padding:14px 25px;
+ border-radius:30px;font-weight:bold;
+ font-size:16px;margin:10px;
+ cursor:pointer;color:#321b00;
+}
+.card{
+ border:1px solid #b88632;border-radius:20px;
+ padding:25px;margin:20px auto;max-width:450px;
+ background:linear-gradient(145deg,#211600,#080500);
+ box-shadow:0 0 25px #704600;
+}
+#wish{font-size:30px;color:#ffe6a0;margin:25px 0}
+#celebration{display:none}
+canvas{position:fixed;inset:0;pointer-events:none}
+.small{color:#d9bd80}
+</style>
+</head>
+
+<body>
+<canvas id="fireworks"></canvas>
+
+<div class="container">
+ <div class="lamp">🪔</div>
+ <h1>HAPPY DIWALI</h1>
+ <p class="small">✨ Festival of Lights ✨</p>
+
+ <div class="card">
+  <div id="welcome">
+   <h2>Welcome to Diwali Celebration</h2>
+   <p>Light up your happiness!</p>
+   <button onclick="celebrate()">TOUCH TO CELEBRATE 🪔</button>
+  </div>
+
+  <div id="celebration">
+   <div id="wish">Happy Diwali!</div>
+   <p>May your life shine with happiness, love & prosperity.</p>
+   <div style="font-size:45px">🪔 🎆 🪔</div>
+   <button onclick="playSong()">🎵 Play Diwali Song</button>
+   <button onclick="pauseSong()">⏸ Pause Song</button>
+  </div>
+ </div>
+
+ <p class="small">Made with ❤️ by RONAK</p>
+</div>
+
+<audio id="song" src="diwali-song.mp3" loop></audio>
+
+<script>
+
+// ADMIN: Add names here in GitHub code only
+const names = [
+ "Devang",
+ "Dhruvil",
+ "Ronak"
+];
+
+function celebrate(){
+ document.getElementById("welcome").style.display="none";
+ document.getElementById("celebration").style.display="block";
+
+ const params = new URLSearchParams(location.search);
+ const name = params.get("name");
+
+ if(name && names.includes(name)){
+   document.getElementById("wish").textContent=
+   "Happy Diwali, "+name+"!";
+ }else{
+   document.getElementById("wish").textContent="Happy Diwali!";
+ }
+
+ fireworks();
+}
+
+function playSong(){
+ document.getElementById("song").play();
+}
+function pauseSong(){
+ document.getElementById("song").pause();
+}
+
+function fireworks(){
+ const canvas=document.getElementById("fireworks");
+ const ctx=canvas.getContext("2d");
+ canvas.width=innerWidth;
+ canvas.height=innerHeight;
+
+ let particles=[];
+
+ function burst(){
+  let x=Math.random()*canvas.width;
+  let y=Math.random()*canvas.height*.65;
+
+  for(let i=0;i<35;i++){
+   let a=Math.random()*Math.PI*2;
+   let s=Math.random()*4+1;
+   particles.push({
+    x,y,vx:Math.cos(a)*s,
+    vy:Math.sin(a)*s,life:70,
+    color:["#ffd700","#ff8800","#ff4444"]
+    [Math.floor(Math.random()*3)]
+   });
+  }
+ }
+
+ setInterval(burst,700);
+
+ function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  particles.forEach(p=>{
+   p.x+=p.vx;
+   p.y+=p.vy;
+   p.life--;
+   ctx.fillStyle=p.color;
+   ctx.globalAlpha=p.life/70;
+   ctx.fillRect(p.x,p.y,3,3);
+  });
+
+  ctx.globalAlpha=1;
+  particles=particles.filter(p=>p.life>0);
+  requestAnimationFrame(draw);
+ }
+
+ draw();
+}
+
+</script>
+</body>
+</html>
