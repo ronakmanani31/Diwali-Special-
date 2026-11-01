@@ -1,156 +1,1052 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ronak Diwali Special</title>
+<meta name="theme-color" content="#090600">
+<title>Ronak Multi-Festival</title>
 
 <style>
 *{box-sizing:border-box}
+
 body{
- margin:0;background:#090600;color:#ffd875;
- font-family:Georgia,serif;text-align:center;
- min-height:100vh;overflow-x:hidden;
+margin:0;
+background:#090600;
+color:#ffd875;
+font-family:Georgia,serif;
+text-align:center;
+min-height:100vh;
+overflow-x:hidden;
 }
-.container{padding:30px 15px}
+
+.container{
+padding:25px 14px;
+position:relative;
+z-index:1;
+}
+
 h1{
- font-size:40px;color:#ffd36a;
- text-shadow:0 0 20px orange;
+font-size:clamp(30px,8vw,45px);
+color:#ffd36a;
+text-shadow:0 0 20px orange;
+overflow-wrap:anywhere;
 }
-.lamp{font-size:65px;animation:glow 1s infinite alternate}
+
+.lamp{
+font-size:65px;
+animation:glow 1s infinite alternate;
+}
+
 @keyframes glow{
- from{filter:drop-shadow(0 0 5px orange)}
- to{filter:drop-shadow(0 0 25px gold)}
+from{filter:drop-shadow(0 0 5px orange)}
+to{filter:drop-shadow(0 0 25px gold)}
 }
-button{
- background:linear-gradient(45deg,#a56b00,#ffe29a);
- border:1px solid gold;padding:14px 25px;
- border-radius:30px;font-weight:bold;
- font-size:16px;margin:10px;
- cursor:pointer;color:#321b00;
-}
+
 .card{
- border:1px solid #b88632;border-radius:20px;
- padding:25px;margin:20px auto;max-width:450px;
- background:linear-gradient(145deg,#211600,#080500);
- box-shadow:0 0 25px #704600;
+border:1px solid #b88632;
+border-radius:20px;
+padding:22px;
+margin:20px auto;
+max-width:540px;
+background:linear-gradient(145deg,#211600,#080500);
+box-shadow:0 0 25px #704600;
 }
-#wish{font-size:30px;color:#ffe6a0;margin:25px 0}
-#celebration{display:none}
-canvas{position:fixed;inset:0;pointer-events:none}
+
+button{
+background:linear-gradient(45deg,#a56b00,#ffe29a);
+border:1px solid gold;
+padding:12px 18px;
+border-radius:30px;
+font-weight:bold;
+font-size:14px;
+margin:6px;
+cursor:pointer;
+color:#321b00;
+}
+
+.secondary{
+background:#30220b;
+color:#ffe6a0;
+}
+
+.danger{
+background:#4a1710;
+color:#ffe6a0;
+}
+
+input,textarea{
+width:100%;
+padding:13px;
+margin:8px 0;
+border-radius:9px;
+border:1px solid #9b6d20;
+background:#100c04;
+color:#ffe6a0;
+font-size:16px;
+font-family:Arial,sans-serif;
+}
+
+textarea{
+min-height:120px;
+resize:vertical;
+}
+
+.hidden{display:none!important}
+
 .small{color:#d9bd80}
+
+#wish{
+font-size:clamp(25px,6vw,36px);
+color:#ffe6a0;
+margin:25px 0;
+overflow-wrap:anywhere;
+}
+
+#wishMessage{
+font-size:19px;
+line-height:1.8;
+white-space:pre-wrap;
+overflow-wrap:anywhere;
+color:#ffe6a0;
+margin:20px 0;
+}
+
+#celebration{display:none}
+
+canvas{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:0;
+}
+
+.row{
+border:1px solid #77521c;
+border-radius:12px;
+padding:13px;
+margin:12px 0;
+overflow-wrap:anywhere;
+}
+
+a{
+color:#ffda80;
+}
+
+.notice{
+font-size:14px;
+color:#e8cf98;
+line-height:1.5;
+}
+
+hr{
+border:0;
+border-top:1px solid #77521c;
+margin:20px 0;
+}
+
+.label{
+text-align:left;
+display:block;
+margin-top:12px;
+color:#e8cf98;
+font-size:14px;
+}
+
 </style>
 </head>
 
 <body>
+
 <canvas id="fireworks"></canvas>
 
 <div class="container">
- <div class="lamp">🪔</div>
- <h1>HAPPY DIWALI</h1>
- <p class="small">✨ Festival of Lights ✨</p>
 
- <div class="card">
-  <div id="welcome">
-   <h2>Welcome to Diwali Celebration</h2>
-   <p>Light up your happiness!</p>
-   <button onclick="celebrate()">TOUCH TO CELEBRATE 🪔</button>
-  </div>
+<div class="lamp">🪔</div>
 
-  <div id="celebration">
-   <div id="wish">Happy Diwali!</div>
-   <p>May your life shine with happiness, love & prosperity.</p>
-   <div style="font-size:45px">🪔 🎆 🪔</div>
-   <button onclick="playSong()">🎵 Play Diwali Song</button>
-   <button onclick="pauseSong()">⏸ Pause Song</button>
-  </div>
- </div>
+<h1 id="festivalTitle">HAPPY DIWALI</h1>
 
- <p class="small">Made with ❤️ by RONAK</p>
+<p class="small" id="festivalSubtitle">
+Festival of Lights
+</p>
+
+<div class="card">
+
+<div id="welcome">
+
+<h2>Welcome to Celebration</h2>
+
+<p>Make Every Moment Special!</p>
+
+<button id="celebrateBtn">
+TOUCH TO CELEBRATE 🎉
+</button>
+
 </div>
+
+<div id="celebration">
+
+<div id="wish">Happy Diwali!</div>
+
+<div id="wishMessage"></div>
+
+<div style="font-size:45px">
+✨ 🎆 🪔 🎆 ✨
+</div>
+
+<button id="playBtn">🎵 PLAY MUSIC</button>
+
+<button id="pauseBtn" class="secondary">
+⏸ PAUSE MUSIC
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ADMIN PANEL -->
+
+<section id="adminPanel" class="card hidden">
+
+<h2>🔐 ADMIN PANEL</h2>
+
+<div id="loginBox">
+
+<input
+id="email"
+type="email"
+placeholder="Admin Email"
+>
+
+<input
+id="password"
+type="password"
+placeholder="Admin Password"
+>
+
+<button id="loginBtn">LOGIN</button>
+
+</div>
+
+
+<div id="adminBox" class="hidden">
+
+<p id="adminEmail" class="small"></p>
+
+<hr>
+
+<h3>🎉 FESTIVAL SETTINGS</h3>
+
+<label class="label">Festival Title</label>
+
+<input
+id="newTitle"
+placeholder="Example: HAPPY NEW YEAR"
+>
+
+<label class="label">Festival Subtitle</label>
+
+<input
+id="newSubtitle"
+placeholder="Example: Welcome 2027"
+>
+
+<label class="label">Custom Blessing / Wish</label>
+
+<textarea
+id="newMessage"
+placeholder="Write your custom blessing in any language..."
+></textarea>
+
+<label class="label">Background Music URL</label>
+
+<input
+id="musicUrl"
+type="url"
+placeholder="Enter MP3 URL (optional)"
+>
+
+<p class="notice">
+Leave the music URL empty to use diwali-song.mp3 from your GitHub repository.
+</p>
+
+<button id="saveSettingsBtn">
+💾 SAVE FESTIVAL SETTINGS
+</button>
+
+<hr>
+
+<h3>👥 ADD NEW PERSON</h3>
+
+<input
+id="newName"
+type="text"
+maxlength="60"
+placeholder="Enter Person Name"
+>
+
+<button id="addBtn">➕ ADD NAME</button>
+
+<hr>
+
+<h3>📋 MANAGE NAMES</h3>
+
+<div id="nameList">Loading...</div>
+
+<button id="logoutBtn" class="secondary">
+LOGOUT
+</button>
+
+</div>
+
+<p id="message" class="notice"></p>
+
+</section>
+
+
+<p class="small">Made with ❤️ by RONAK</p>
+
+<p>
+<a href="?admin=1">🔐 Admin Login</a>
+</p>
+
+</div>
+
 
 <audio id="song" src="diwali-song.mp3" loop></audio>
 
-<script>
 
-// ADMIN: Add names here in GitHub code only
-const names = [
- "Devang",
- "Dhruvil",
- "Ronak"
-];
+<script type="module">
 
-function celebrate(){
- document.getElementById("welcome").style.display="none";
- document.getElementById("celebration").style.display="block";
+// FIREBASE IMPORTS
 
- const params = new URLSearchParams(location.search);
- const name = params.get("name");
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
- if(name && names.includes(name)){
-   document.getElementById("wish").textContent=
-   "Happy Diwali, "+name+"!";
- }else{
-   document.getElementById("wish").textContent="Happy Diwali!";
- }
+import {
+getAuth,
+signInWithEmailAndPassword,
+onAuthStateChanged,
+signOut
+}
+from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
- fireworks();
+import {
+getFirestore,
+collection,
+addDoc,
+getDocs,
+getDoc,
+doc,
+updateDoc,
+deleteDoc,
+setDoc,
+serverTimestamp,
+query,
+orderBy
+}
+from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+
+// FIREBASE CONFIGURATION
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyACMY4rWoiM57YrHUT9dcdnyKLpcZbbw8k",
+
+authDomain: "ronak-diwali-f74f0.firebaseapp.com",
+
+projectId: "ronak-diwali-f74f0",
+
+storageBucket: "ronak-diwali-f74f0.firebasestorage.app",
+
+messagingSenderId: "619305958004",
+
+appId: "1:619305958004:web:eaa79e5b60902886056f21",
+
+measurementId: "G-2WPFMVTF5Q"
+
+};
+
+
+// ⭐ ADMIN UID - PASTE YOUR UID HERE
+
+const ADMIN_UID = "PASTE_YOUR_ADMIN_UID_HERE";
+
+
+// INITIALIZE FIREBASE
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+// DATABASE REFERENCES
+
+const usersRef = collection(db,"users");
+
+const settingsRef = doc(db,"settings","site");
+
+const $ = id => document.getElementById(id);
+
+const params = new URLSearchParams(location.search);
+
+
+// ADMIN PAGE
+
+if(params.get("admin")==="1"){
+$("adminPanel").classList.remove("hidden");
 }
 
-function playSong(){
- document.getElementById("song").play();
+
+// DEFAULT SETTINGS
+
+const defaults = {
+
+title:"HAPPY DIWALI",
+
+subtitle:"Festival of Lights",
+
+message:"May your life shine with happiness, love and prosperity!",
+
+musicUrl:""
+
+};
+
+
+// SHOW MESSAGE
+
+function showMessage(text){
+$("message").textContent=text;
 }
-function pauseSong(){
- document.getElementById("song").pause();
+
+
+// ADMIN SECURITY CHECK
+
+function isAdmin(user){
+
+return !!user &&
+ADMIN_UID !== "ncC3IMyCHCWap6jENbBzpGP6tcv2" &&
+user.uid === ADMIN_UID;
+
 }
 
-function fireworks(){
- const canvas=document.getElementById("fireworks");
- const ctx=canvas.getContext("2d");
- canvas.width=innerWidth;
- canvas.height=innerHeight;
 
- let particles=[];
+// LOAD FESTIVAL SETTINGS
 
- function burst(){
-  let x=Math.random()*canvas.width;
-  let y=Math.random()*canvas.height*.65;
+async function loadSettings(){
 
-  for(let i=0;i<35;i++){
-   let a=Math.random()*Math.PI*2;
-   let s=Math.random()*4+1;
-   particles.push({
-    x,y,vx:Math.cos(a)*s,
-    vy:Math.sin(a)*s,life:70,
-    color:["#ffd700","#ff8800","#ff4444"]
-    [Math.floor(Math.random()*3)]
-   });
-  }
- }
+try{
 
- setInterval(burst,700);
+const snap = await getDoc(settingsRef);
 
- function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+let settings = {...defaults};
 
-  particles.forEach(p=>{
-   p.x+=p.vx;
-   p.y+=p.vy;
-   p.life--;
-   ctx.fillStyle=p.color;
-   ctx.globalAlpha=p.life/70;
-   ctx.fillRect(p.x,p.y,3,3);
-  });
+if(snap.exists()){
 
-  ctx.globalAlpha=1;
-  particles=particles.filter(p=>p.life>0);
-  requestAnimationFrame(draw);
- }
+settings = {
+...defaults,
+...snap.data()
+};
 
- draw();
 }
+
+// UPDATE WEBSITE
+
+$("festivalTitle").textContent=settings.title;
+
+$("festivalSubtitle").textContent=settings.subtitle;
+
+$("wishMessage").textContent=settings.message;
+
+if(settings.musicUrl){
+
+$("song").src=settings.musicUrl;
+
+}else{
+
+$("song").src="diwali-song.mp3";
+
+}
+
+}catch(error){
+
+console.error("Settings Error:",error);
+
+}
+
+}
+
+
+// PERSONAL WISH LINK
+
+async function loadPersonalWish(){
+
+const id=params.get("id");
+
+if(!id)return;
+
+try{
+
+const snap=await getDoc(doc(db,"users",id));
+
+if(snap.exists()){
+
+$("wish").textContent=
+"Happy Diwali, "+snap.data().name+"!";
+
+}
+
+}catch(error){
+
+console.error("Personal Wish Error:",error);
+
+}
+
+}
+
+
+// LOAD WEBSITE
+
+loadSettings();
+
+loadPersonalWish();
+
+
+// CELEBRATION
+
+$("celebrateBtn").addEventListener("click",()=>{
+
+$("welcome").style.display="none";
+
+$("celebration").style.display="block";
+
+startFireworks();
+
+});
+
+
+// MUSIC
+
+$("playBtn").addEventListener("click",async()=>{
+
+try{
+
+await $("song").play();
+
+}catch(error){
+
+alert("Music could not be played. Check the music URL.");
+
+}
+
+});
+
+$("pauseBtn").addEventListener("click",()=>{
+
+$("song").pause();
+
+});
+
+
+// FIREWORKS ANIMATION
+
+let fireworksStarted=false;
+
+function startFireworks(){
+
+if(fireworksStarted)return;
+
+fireworksStarted=true;
+
+const canvas=$("fireworks");
+
+const ctx=canvas.getContext("2d");
+
+function resize(){
+
+canvas.width=window.innerWidth;
+
+canvas.height=window.innerHeight;
+
+}
+
+resize();
+
+window.addEventListener("resize",resize);
+
+let particles=[];
+
+function burst(){
+
+const x=Math.random()*canvas.width;
+
+const y=Math.random()*canvas.height*.65;
+
+for(let i=0;i<40;i++){
+
+const angle=Math.random()*Math.PI*2;
+
+const speed=Math.random()*4+1;
+
+particles.push({
+
+x,y,
+
+vx:Math.cos(angle)*speed,
+
+vy:Math.sin(angle)*speed,
+
+life:70,
+
+color:["#ffd700","#ff8800","#ff4444"]
+[Math.floor(Math.random()*3)]
+
+});
+
+}
+
+}
+
+setInterval(burst,850);
+
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+particles.forEach(p=>{
+
+p.x+=p.vx;
+
+p.y+=p.vy;
+
+p.life--;
+
+ctx.fillStyle=p.color;
+
+ctx.globalAlpha=Math.max(0,p.life/70);
+
+ctx.fillRect(p.x,p.y,3,3);
+
+});
+
+ctx.globalAlpha=1;
+
+particles=particles.filter(p=>p.life>0);
+
+requestAnimationFrame(draw);
+
+}
+
+burst();
+
+draw();
+
+}
+
+
+// ADMIN LOGIN
+
+$("loginBtn").addEventListener("click",async()=>{
+
+const email=$("email").value.trim();
+
+const password=$("password").value;
+
+if(!email || !password){
+
+return showMessage("Please enter email and password.");
+
+}
+
+try{
+
+const result=await signInWithEmailAndPassword(
+auth,email,password
+);
+
+if(!isAdmin(result.user)){
+
+await signOut(auth);
+
+showMessage("Access denied. Invalid Admin UID.");
+
+}
+
+}catch(error){
+
+showMessage("Login failed: "+error.message);
+
+}
+
+});
+
+
+// AUTHENTICATION CHECK
+
+onAuthStateChanged(auth,async user=>{
+
+if(isAdmin(user)){
+
+$("loginBox").classList.add("hidden");
+
+$("adminBox").classList.remove("hidden");
+
+$("adminEmail").textContent=
+"Logged in: "+user.email;
+
+await loadAdminSettings();
+
+await loadNames();
+
+}else{
+
+$("loginBox").classList.remove("hidden");
+
+$("adminBox").classList.add("hidden");
+
+}
+
+});
+
+
+// LOAD ADMIN SETTINGS
+
+async function loadAdminSettings(){
+
+try{
+
+const snap=await getDoc(settingsRef);
+
+const settings=snap.exists()
+? {...defaults,...snap.data()}
+: defaults;
+
+$("newTitle").value=settings.title;
+
+$("newSubtitle").value=settings.subtitle;
+
+$("newMessage").value=settings.message;
+
+$("musicUrl").value=settings.musicUrl;
+
+}catch(error){
+
+showMessage("Could not load settings: "+error.message);
+
+}
+
+}
+
+
+// SAVE FESTIVAL SETTINGS
+
+$("saveSettingsBtn").addEventListener("click",async()=>{
+
+const title=$("newTitle").value.trim();
+
+const subtitle=$("newSubtitle").value.trim();
+
+const message=$("newMessage").value;
+
+const musicUrl=$("musicUrl").value.trim();
+
+if(!title){
+
+return showMessage("Please enter a Festival Title.");
+
+}
+
+if(musicUrl){
+
+try{
+
+const parsed=new URL(musicUrl);
+
+if(!["https:","http:"].includes(parsed.protocol)){
+
+return showMessage("Invalid music URL.");
+
+}
+
+}catch(error){
+
+return showMessage("Please enter a valid music URL.");
+
+}
+
+}
+
+try{
+
+await setDoc(settingsRef,{
+
+title:title,
+
+subtitle:subtitle,
+
+message:message,
+
+musicUrl:musicUrl,
+
+updatedAt:serverTimestamp()
+
+});
+
+$("festivalTitle").textContent=title;
+
+$("festivalSubtitle").textContent=subtitle;
+
+$("wishMessage").textContent=message;
+
+$("song").src=musicUrl || "diwali-song.mp3";
+
+$("song").load();
+
+showMessage("Festival settings saved successfully!");
+
+}catch(error){
+
+showMessage("Save failed: "+error.message);
+
+}
+
+});
+
+
+// ADD NEW PERSON
+
+$("addBtn").addEventListener("click",async()=>{
+
+const name=$("newName").value.trim();
+
+if(!name){
+
+return showMessage("Please enter a name.");
+
+}
+
+try{
+
+await addDoc(usersRef,{
+
+name:name,
+
+createdAt:serverTimestamp()
+
+});
+
+$("newName").value="";
+
+showMessage("Name added successfully!");
+
+await loadNames();
+
+}catch(error){
+
+showMessage("Add failed: "+error.message);
+
+}
+
+});
+
+
+// LOAD ALL NAMES
+
+async function loadNames(){
+
+$("nameList").textContent="Loading...";
+
+try{
+
+const snap=await getDocs(
+
+query(usersRef,orderBy("createdAt","desc"))
+
+);
+
+$("nameList").innerHTML="";
+
+if(snap.empty){
+
+$("nameList").textContent="No names added yet.";
+
+return;
+
+}
+
+snap.forEach(item=>{
+
+const data=item.data();
+
+const row=document.createElement("div");
+
+row.className="row";
+
+const title=document.createElement("h3");
+
+title.textContent=data.name || "Unnamed";
+
+
+// PERSONAL WISH LINK
+
+const url=new URL(location.href);
+
+url.search="";
+
+url.searchParams.set("id",item.id);
+
+const link=url.toString();
+
+const anchor=document.createElement("a");
+
+anchor.href=link;
+
+anchor.target="_blank";
+
+anchor.textContent="Open Personal Wish Link";
+
+
+// COPY LINK
+
+const copy=document.createElement("button");
+
+copy.textContent="🔗 COPY LINK";
+
+copy.addEventListener("click",async()=>{
+
+try{
+
+await navigator.clipboard.writeText(link);
+
+showMessage("Wish link copied successfully!");
+
+}catch(error){
+
+prompt("Copy your personal wish link:",link);
+
+}
+
+});
+
+
+// EDIT NAME
+
+const edit=document.createElement("button");
+
+edit.className="secondary";
+
+edit.textContent="✏️ EDIT";
+
+edit.addEventListener("click",async()=>{
+
+const newName=prompt(
+"Enter new name:",
+data.name || ""
+);
+
+if(!newName || !newName.trim())return;
+
+try{
+
+await updateDoc(doc(db,"users",item.id),{
+
+name:newName.trim()
+
+});
+
+showMessage("Name updated successfully!");
+
+await loadNames();
+
+}catch(error){
+
+showMessage("Edit failed: "+error.message);
+
+}
+
+});
+
+
+// DELETE NAME
+
+const del=document.createElement("button");
+
+del.className="danger";
+
+del.textContent="🗑 DELETE";
+
+del.addEventListener("click",async()=>{
+
+if(!confirm("Are you sure you want to delete this name?"))return;
+
+try{
+
+await deleteDoc(doc(db,"users",item.id));
+
+showMessage("Name deleted successfully!");
+
+await loadNames();
+
+}catch(error){
+
+showMessage("Delete failed: "+error.message);
+
+}
+
+});
+
+row.append(
+
+title,
+
+anchor,
+
+document.createElement("br"),
+
+copy,
+
+edit,
+
+del
+
+);
+
+$("nameList").append(row);
+
+});
+
+}catch(error){
+
+$("nameList").textContent=
+"Could not load names: "+error.message;
+
+}
+
+}
+
+
+// LOGOUT
+
+$("logoutBtn").addEventListener("click",async()=>{
+
+try{
+
+await signOut(auth);
+
+showMessage("Logged out successfully.");
+
+}catch(error){
+
+showMessage(error.message);
+
+}
+
+});
 
 </script>
+
 </body>
 </html>
